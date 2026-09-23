@@ -1,0 +1,317 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{titlesec}
+\usepackage{changepage} 
+\usepackage[italian]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{changepage}
+\usepackage{tikz}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{listings}
+
+\usetikzlibrary{positioning}
+
+\newenvironment{paragrafo}[1]{
+    \par
+    \noindent\textbf{#1}\par
+    \begin{adjustwidth}{2em}{0pt}
+    \setlength{\parindent}{0pt}
+    \noindent\ignorespaces
+}{
+    \end{adjustwidth}
+    \par
+}
+
+\newcommand{\memoria}[1]{%
+\begin{tikzpicture}[
+    cella/.style={
+        draw,
+        minimum width=0.8cm,
+        minimum height=0.55cm,
+        inner sep=0pt
+    }
+]
+\foreach \val [count=\i from 0] in {#1}{
+    \node[cella] (c\i) at (\i*1.05,0) {\val};
+    \node[above=2pt of c\i] {\scriptsize \i};
+}
+\end{tikzpicture}
+}
+
+\newcommand{\memoriaunita}[1]{%
+\begin{tikzpicture}[
+    cella/.style={
+        draw,
+        minimum width=0.8cm,
+        minimum height=0.55cm,
+        inner sep=0pt,
+        outer sep=0pt
+    }
+]
+\foreach \val [count=\i from 0] in {#1}{
+    \node[cella, anchor=west] (c\i) at ({0.8*\i},0) {\val};
+    \node[above=2pt of c\i] {\scriptsize \i};
+}
+\end{tikzpicture}%
+}
+
+\title{\Huge Appunti di Algoritmi e Complessità\\\small per il corso di Boldi P.  @ Università degli studi di Milano}
+\author{Manuele Ferro}  
+\date{2026 / 2027}
+
+
+\begin{document}
+
+% Source - https://tex.stackexchange.com/a/741116
+% Posted by satk0
+% Retrieved 2026-09-23, License - CC BY-SA 4.0
+
+\lstdefinelanguage{Pseudocode}{
+  keywords={input, output, return, datatype, function, in, if, else, foreach, while, begin, end
+  },
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=true,                  
+    tabsize=2
+}
+
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduzione}
+\section{Analisi di algoritmi}
+\subsection{Load balancing}
+\begin{paragrafo}{Problema:}
+    \begin{paragrafo}{Input:}
+        Ho in input un numero $n \in \mathbb{N}^+$ di task e un numero $m \in \mathbb{N}^+$ di macchinari.
+
+        Ognuna di queste task ha un tempo di esecuzione $t_0,t_1,\dots t_{n-1} \in \mathbb{N}^+$
+
+        Indichiamo con $L_i$ il carico associato a una macchina $i$.
+        
+        Indichiamo con $L$ il costo, definito come  $L = \max_i{L_i}$
+    \end{paragrafo}
+
+    \begin{paragrafo}{Soluzioni ammesse:}
+        Le soluzioni ammesse per questo problema sono delle partizioni di $n$ per $m$:
+
+        \begin{center}
+            $A_0,A_1,\dots ,A_{m-1}$
+        \end{center}
+
+        Il problema è di ricerca del minimo.
+    \end{paragrafo}
+
+    \begin{paragrafo}{Esempio grafico:}
+        Supponiamo di avere 8 task, e 3 macchinari su cui eseguirle.
+        
+        \textbf{Tasks:} 
+        \begin{center}
+            \memoria{3,2,3,1,1,4,5,1}
+        \end{center}
+        \smallskip
+        Possiamo trovare una possibile partizione delle task per i macchinari del tipo:
+
+        \smallskip
+        \begin{center}
+            \begin{tabular}{r@{\qquad}l@{\qquad}r}
+                $m$ & tasks & $L_i$ \\
+                0 & \memoriaunita{3,1,1,2} & 7 \\
+                1 & \memoriaunita{5,1,3}   & 8 \\
+                2 & \memoriaunita{4,1}     & 5
+            \end{tabular}
+        \end{center}
+        \smallskip
+        Vediamo facilmente che il costo $L$ è il massimo tra i 3, ovvero $8$.
+        Possiamo allo stesso tempo affermare che non è la soluzione ottima, infatti, è semplice evidenziarne una migliore.
+        
+        \smallskip
+        \begin{center}
+            \begin{tabular}{r@{\qquad}l@{\qquad}r}
+                $m$ & tasks & $L_i$ \\
+                0 & \memoriaunita{5,1,1} & 7 \\
+                1 & \memoriaunita{4,3}   & 7\\
+                2 & \memoriaunita{3,2,1}     & 6
+            \end{tabular}
+        \end{center}
+        \smallskip
+
+    \end{paragrafo}
+    
+    \break
+
+    \begin{paragrafo}{Teorema.} 
+        Il problema Load Balancing è NPO Completo
+
+        \hspace*{2em} Questo ci porta subito a studiare le soluzioni approssimate.
+    \end{paragrafo}
+        
+    Inserire algoritmo qui che non ho sbatti, e anche i vari tempi e cazzate varie.
+
+    \begin{paragrafo}{Teorema.} 
+        Greedy Load Balancing è 2 approssimato per Load Balancing.
+    \end{paragrafo}
+    \begin{paragrafo}{Dimostrazione}
+        \textbf{Osservazione 1.} $L^* \ge \frac{1}{m}\sum_jt_j$
+        
+        \textbf{Dim 1.} $\sum_{i} L_i^* = \sum_{j} t_j$
+        
+        \hspace*{2em} Per pidgeonholing, non è possibile che $\forall i L^*_i < \frac 1 m \sum_{j}t_j$
+
+        \hspace*{2em} quindi
+
+        \hspace*{2em} $\exists i L^*_i \ge \frac 1 m \sum_j  t_j$
+
+        \textbf{Osservazione 2.} $L^* \ge \max_j t_j$
+
+        \vspace*{2em}
+
+        Sia $\hat i$ la macchina più carica alla fine dell'esecuzione e $\hat j$ l'ultima task assegnata a $\hat i$.
+
+        Allora possiamo dire che:
+
+            $$L_{\hat i} - t_{\hat j} \le L_i'\ \forall i \in m \le L_{i}$$
+
+        A questo punto sommiamo le disequazioni:
+
+            $$L_{\hat i} - t_{\hat j} \le L_i'$$
+            $$m(L_{\hat i} - t_{\hat j}) \le \sum_i L_i$$
+            $$L_{\hat i} - t_{\hat j} \le \frac 1 m \sum_i L_i = \frac 1 m \sum_j t_j\le L^*$$
+            $$L = L_{\hat i} = (L_{\hat i} - t_{\hat j}) + t_{\hat j} \le L^* + t_{\hat j}\le L^*+L^*$$
+            $$L\le2L^*$$
+
+        \textbf{Corollario.} Load Balancing $\in$ 2-APX
+            
+            
+
+    \end{paragrafo}
+
+    \begin{paragrafo}{Teorema.} 
+        $\forall \epsilon > 0$ esiste un input in cui Greedy Load Balancing produce una soluzione di costo:
+        $$2-\epsilon \le \frac{L}{L^*} \le 2$$
+    \end{paragrafo}
+    \begin{paragrafo}{Dimostrazione}
+        Prendiamo $m > \frac 1 \epsilon, \text{e } n = (m-1)+1$, con i primi $m-1$ input pari a $1$ el'ultimo pari a $m$.
+        
+        Applicando l'algoritmo su questi input otteniamo:
+        \begin{center}
+            \begin{tabular}{r@{\qquad}l@{\qquad}r}
+                $m$ & tasks & $L_i$ \\
+                0 & \memoriaunita{1,1,1} & 13 \\
+                1 & \memoriaunita{1,1,3}   & 3 \\
+                2 & \memoriaunita{1,1}     & 3
+            \end{tabular}
+        \end{center}
+        $$L = 2m-1$$
+        Notiamo invece il caso ottimale su questo input:
+                \begin{center}
+            \begin{tabular}{r@{\qquad}l@{\qquad}r}
+                $m$ & tasks & $L_i$ \\
+                0 & \memoriaunita{1,1,1} & 3 \\
+                1 & \memoriaunita{1,1,1}   & 3 \\
+                2 & \memoriaunita{1,3}     & 4
+            \end{tabular}
+        \end{center}
+        $$L = 4, \text{ ottimo}$$ 
+        \begin{paragrafo}{Piccola digressione}
+            L'input definito è inoltre uno dei pochi casi in cui la media equivale al caso ottimo.
+            $$\frac{m(m-1)+m}{m}= m-1+1 = \lceil m \rceil$$
+        \end{paragrafo}
+
+        $$\frac L {L^*} = \frac {2m-1} {m} = 2 - \frac 1 m \ge 2-\epsilon$$
+
+    \end{paragrafo}
+
+    Se ordino Greedy Load Balancing, perdo la sua proprietà di essere ONLINE, ma ne guadagno in approssimazione, infatti:
+
+    \begin{lstlisting}[style=myStyle,mathescape=true,caption=Offline Greedy Load Balancing,label={Offline Greedy Load Balancing}]
+    Sorto i task in ordine non crescente di durata
+    Applico Greedy Load Balancing  
+\end{lstlisting}
+
+    \begin{paragrafo}{Teorema.}
+        Offline Greedy Load Balancing è $\frac{3}{2}$ approssimato per Load Balancing.
+    \end{paragrafo}
+
+    \begin{paragrafo}{Dimostrazione.}
+        \textbf{Osservazione 1.} Se $n \le m$, troviamo l'ottimo
+
+        \hspace*{2em} Assumiamo quindi $n > m$
+
+        \textbf{Osservazione 2.} $L^* \ge 2t_m$ dato che
+            \begin{paragrafo}{Dim 2.}
+                $\begin{underbrace} {t_0 \ge t_1 \ge \dots \ge t_{m-1}} \end{underbrace}_\text{m task} \ge t_m \dots \text{ sempre per pidgeonholing}$  
+            
+                $\exists i\ L^* \ge L^*_i \ge t_{1} + t_{2} \ge t_m + t_m$
+
+                quindi
+            
+                $L^* \ge 2t_m$
+            \end{paragrafo}
+            
+            Sia $\hat i$ la macchina più carica alla fine dell'esecuzione.
+
+            Possiamo assumere che ad essa siano assegnati almeno due task, altrimenti avremmo l'ottimo.
+
+            Sia $\hat j$ l'ultimo task assegnato:
+
+            $$\hat j \ge m$$
+
+            quindi
+
+            $$t_{\hat j} \le t_m \le \frac 1 2 L^*$$
+
+            quindi
+            
+            $$L = L_{\hat i} = L_{\hat i} - t_{\hat j} + t_{\hat j} \le \frac 3 2 L^*$$
+
+
+            \textbf{N.B. 1:} L'analisi è migliorabile, dimostrando che l'algoritmo è $\frac 4 3 $ approssimato.
+
+            \hspace*{2em} [Graham 1969] 
+
+            \textbf{N.B. 2:} Load Balancing $\notin $ FPTAS (assunto $P \not = NP$)
+            
+            \hspace*{2em} [Hochbaum-Shmops 1988] 
+
+
+    \end{paragrafo}
+    
+
+
+\end{paragrafo}
+
+\end{document}
