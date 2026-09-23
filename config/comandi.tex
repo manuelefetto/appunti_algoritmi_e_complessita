@@ -1,0 +1,49 @@
+% Paragrafo con titolo in grassetto e corpo rientrato.
+\newenvironment{paragrafo}[1]{%
+    \par
+    \noindent\textbf{#1}\par
+    \begin{adjustwidth}{2em}{0pt}%
+    \setlength{\parindent}{0pt}%
+    \noindent\ignorespaces
+}{%
+    \end{adjustwidth}%
+    \par
+}
+
+% Ambienti semantici con la stessa resa grafica di paragrafo.
+\newenvironment{teorema}
+    {\begin{paragrafo}{Teorema.}}
+    {\end{paragrafo}}
+
+\newenvironment{dimostrazione}
+    {\begin{paragrafo}{Dimostrazione}}
+    {\end{paragrafo}}
+
+% Stile condiviso dai diagrammi di memoria.
+\tikzset{
+    cella memoria/.style={
+        draw,
+        minimum width=0.8cm,
+        minimum height=0.55cm,
+        inner sep=0pt
+    }
+}
+
+\newcommand{\memoria}[1]{%
+\begin{tikzpicture}
+\foreach \val [count=\i from 0] in {#1}{
+    \node[cella memoria] (c\i) at (\i*1.05,0) {\val};
+    \node[above=2pt of c\i] {\scriptsize \i};
+}
+\end{tikzpicture}%
+}
+
+\newcommand{\memoriaunita}[1]{%
+\begin{tikzpicture}
+\foreach \val [count=\i from 0] in {#1}{
+    \node[cella memoria, outer sep=0pt, anchor=west]
+        (c\i) at ({0.8*\i},0) {\val};
+    \node[above=2pt of c\i] {\scriptsize \i};
+}
+\end{tikzpicture}%
+}
