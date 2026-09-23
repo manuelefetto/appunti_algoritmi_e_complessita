@@ -56,6 +56,10 @@ fatto per `Analisi di algoritmi`.
 - Nomi dei file in minuscolo, con parole separate da trattini.
 - Numerare i file dei capitoli per mantenere evidente il loro ordine.
 - Mettere nel preambolo soltanto definizioni usate in più punti.
-- Usare gli ambienti `teorema`, `dimostrazione` e `paragrafo` invece di
-  ricrearne ogni volta titoli e rientri.
+- Usare gli ambienti `teorema`, `dimostrazione` e `paragrafo` per la struttura
+  principale.
+- Dentro le dimostrazioni usare `\osservazione`, `giustificazione`, `rientro`,
+  `\corollario`, `nota` e `\fonte`, evitando `\hspace` e `\vspace` nei capitoli.
+- Per gli incisi autonomi usare `digressione`, così titolo e rientro restano
+  coerenti in tutto il documento.
 - Usare etichette descrittive senza spazi, per esempio `alg:offline-greedy`.

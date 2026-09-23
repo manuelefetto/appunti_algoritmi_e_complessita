@@ -19,6 +19,55 @@
     {\begin{paragrafo}{Dimostrazione}}
     {\end{paragrafo}}
 
+\newenvironment{digressione}
+    {\begin{paragrafo}{Piccola digressione}}
+    {\end{paragrafo}}
+
+% Elementi semantici usati all'interno di teoremi e dimostrazioni.
+% Le scelte tipografiche restano centralizzate qui, senza spaziature manuali
+% sparse nei capitoli.
+\newenvironment{rientro}{%
+    \par
+    \begingroup
+    \leftskip=2em\relax
+    \noindent\ignorespaces
+}{%
+    \par
+    \endgroup
+}
+
+\newcommand{\osservazione}[2]{%
+    \par\noindent\textbf{Osservazione #1.} #2\par
+}
+
+\newenvironment{giustificazione}[2]{%
+    \par\noindent\textbf{#1} #2\par
+    \begin{adjustwidth}{2em}{0pt}%
+    \setlength{\parindent}{0pt}%
+    \noindent\ignorespaces
+}{%
+    \end{adjustwidth}%
+    \par
+}
+
+\newcommand{\corollario}[1]{%
+    \par\noindent\textbf{Corollario.} #1\par
+}
+
+\newenvironment{nota}[1]{%
+    \par\noindent\textbf{N.B. #1:}\ \ignorespaces
+}{%
+    \par
+}
+
+\newcommand{\fonte}[1]{%
+    \begin{rientro}
+        [#1]
+    \end{rientro}%
+}
+
+\newcommand{\separapassaggi}{\par\vspace*{2em}}
+
 % Stile condiviso dai diagrammi di memoria.
 \tikzset{
     cella memoria/.style={
