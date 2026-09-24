@@ -1,1 +1,127 @@
 \section{Introduzione}
+
+\begin{paragrafo}{Scopo}
+    L'obiettivo della materia è quello di andare a studiare la complessità degli algoritmi, andare ad approssimare algoritmi che non sono
+    applicabili, e studiare queste approssimazioni.
+
+    Aggiungo inoltre che dato che ho appena iniziato a farla, non so niente, e questo paragrafo verrà cambiato nel futuro lel. %TODO cambiarlo.
+\end{paragrafo}
+
+\subsection{Notazione e cenni matematici}
+
+    In questa sezione ci saranno un po' di cenni ai concetti che andremo a utilizzare in tutto il corso e le notazioni usate.
+    \separapassaggi
+    \begin{paragrafo}{Alfabeto}
+        Un insieme finito e non vuoto è detto alfabeto e si indica generalmente con $\Sigma$
+    \end{paragrafo}
+
+    \begin{paragrafo}{Insieme delle stringhe}
+        L'insieme delle stringhe di un alfabeto è l'insieme di tutte le possibili sequenze finite su quell'alfabeto e si indica con $\Sigma^*$
+    \end{paragrafo}
+    
+    \begin{paragrafo}{Numerabilità}
+        Un insieme è detto \textbf{numberabile} se questo  può essere messo in biiezione con i naturali.
+    \end{paragrafo}
+
+    \begin{paragrafo}{Concatenazione}
+        L'operazione di concatenazione, è un operatore che date due stringhe $s1,s2 \in \Sigma^*$ crea la stringa $s1 \circ s2$, dove $\circ$ concatena le stringhe.
+
+        L'operatore di concatenazione è associativa e non commutativa.
+    \end{paragrafo}
+
+    \begin{paragrafo}{Magma, Semigruppo, Monoide }
+        Un magma è una coppia insieme-operazione, in cui l'operazione non è associativa
+
+        Un semigruppo è una coppia iniseme-operazione, in cui l'operazione è associativa $(\Sigma^*, \circ)$ 
+
+        Un monoide è un semigruppo in cui l'operazione ha elemento neutro nell'insieme.
+
+        Un monoide abeliano è un monoide in cui l'operazione gode anche della proprietà commutativa.
+    \end{paragrafo}
+    
+    \begin{paragrafo}{Insime delle funzioni}
+        L'insieme delle funzioni $B^A$ è l'insieme di tutte le possibili funzioni con dominio in $A$ e codominio in $B$
+
+        \[
+            B^A = \{f\}\ f:A\rightarrow B
+        \]
+
+    \end{paragrafo}
+
+    \begin{paragrafo}{Naturali come insiemi}
+        Spesso nel corso capiterà di utilizzare i numeri naturali per andare a indicare il sottoinsieme dei naturali fino a quel numero escluso.
+        
+    \[
+        0 = \emptyset \qquad 1 = \{0\} \qquad 2 = \{0,1\} \qquad 3 = \{0,1,2\}
+    \]
+
+    \[
+        2^* = \{\epsilon,0,1,00,01,11,10,\dots \} \qquad 2^A= \{f\}\ f:A \rightarrow 2
+    \]
+
+    \[
+        2^{2^*} = \text{ Famiglia che descrive tutti i linguaggi binari}
+    \]
+    \begin{center}che non è numerabile, per il teorema di Cantor\end{center}
+
+    \[
+        A^2=\{(a_1,a_2) : a_1, a_2 \in A\} = \{f:2 \rightarrow A\} = \{f:\{0,1\}\rightarrow A\}
+    \]
+
+    \end{paragrafo}
+
+
+    \begin{paragrafo}{Problemi di decisione} 
+        Dato $L \subseteq \Sigma^*$, un problema di decisione è un problema che dato in input un elemento di $\Sigma^*$ da in output si o no, a seconda dell'appartenenza dell'elemento a $L$
+
+    \[
+        x\in \Sigma^* \rightarrow \boxed{P_L} \rightarrow
+        \begin{cases}
+            1 & x \in L \\
+            0 & x \notin L 
+        \end{cases}
+    \]
+
+    \end{paragrafo}
+    
+    \begin{paragrafo}{Problema}
+        Un problema $\pi$ è definito da:
+            \begin{itemize}
+                \item un insieme di input possibili $I_\pi \subseteq 2^*$
+                \item un insieme di output possibili $O_\pi \subseteq 2^*$
+                \item una funzione $Sol_\pi: I_\pi\rightarrow 2^{O_\pi}$
+            \end{itemize}
+    \end{paragrafo}
+
+    \begin{paragrafo}{Rappresentazione degli input}
+        Gli input di un problema come descritti sopra devono essere un unica stringa binaria. Data questa limitazione, è necessario trovare un modo per andare a codificare più numeri di input in una singola stringa in input.
+        Questo viene fatto tramite alla \textbf{gamma di Elios}, che consiste nel codificare i numeri in binario andando a inserire ad ognuno un prefisso composto tanti 1 quanto le cifre del numero, e uno 0 per indicare la fine del prefisso.
+        Questo sicuramente aumenta la lunghezza dell'input, ma lo fa di un valore irrisorio all'ordine di grandezza, quindi trascurabile.
+    \end{paragrafo}
+
+
+    \begin{paragrafo}{Soluzioni}
+        Le soluzioni sono dettate dagli algoritmi e sono così definite:
+        \[
+            x\in I_\pi \rightarrow \boxed{A}_\pi \rightarrow y \in O_\pi \land y \in Sol_\pi(x)
+        \]
+    \end{paragrafo}
+
+    \begin{paragrafo}{Algoritmo}
+        Un algoritmo è un insieme di istruzioni, noi li vedremo come macchine di Turing.
+    \end{paragrafo}
+
+    \begin{paragrafo}{Macchina di Turing}
+        Una macchina di Turing è una macchina ideale, composta da un nastro infinito con su scritti dati e separatori.
+
+        Un puntatore scorre sul nastro avanti e indietro e calcola dai dati scritti una soluzione.
+
+        \begin{paragrafo}{Tesi di Church-Turing}
+            La tesi di Church-Turing dice che la macchina di Turing rappresenta il massimo della potenza computazionale ad oggi raggiungibile. Ogni altro strumento di calcolo, come i moderni linguaggi, è pari ad essa.
+        \end{paragrafo}
+    \end{paragrafo}
+
+    % TODO finire 
+    
+
+\paragraph{}
